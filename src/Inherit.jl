@@ -33,6 +33,7 @@ macro inherit(expr)
 
     # instrospect parent type
     fields = map(fieldnames(parent), fieldtypes(parent)) do name, type
+        type isa TypeVar && (type = Symbol(type))
         :($name::$type)
     end
 

@@ -30,11 +30,16 @@ end
     @test fieldtypes(C{Char}) == (Int, Char)
 
     @test fieldnames(D) == (:a, :c, :d)
-    @test_broken fieldtypes(D) == (Int, Any, Any)
+    @test fieldtypes(D) == (Int, Any, Any)
     @test fieldnames(D{Char}) == (:a, :c, :d)
-    @test_broken fieldtypes(D{Char}) == (Int, Char, Any)
+    @test fieldtypes(D{Char}) == (Int, Char, Any)
     @test fieldnames(D{Char,Float32}) == (:a, :c, :d)
-    @test_broken fieldtypes(D{Char,Float32}) == (Int, Char, Float32)
+    @test fieldtypes(D{Char,Float32}) == (Int, Char, Float32)
+
     @test fieldnames(D{T,Float32} where {T}) == (:a, :c, :d)
-    @test_broken fieldtypes(D{T,Float32} where {T}) == (Int, Any, Float32)
+    @test fieldtypes(D{T,Float32} where {T}) == (Int, Any, Float32)
+    @test fieldnames(D{T,Float32} where {T<:Integer}) == (:a, :c, :d)
+    @test fieldtypes(D{T,Float32} where {T<:Integer}) == (Int, Integer, Float32)
+    @test fieldnames(D{T,Float32} where {T>:Integer}) == (:a, :c, :d)
+    @test fieldtypes(D{T,Float32} where {T>:Integer}) == (Int, Any, Float32)
 end
